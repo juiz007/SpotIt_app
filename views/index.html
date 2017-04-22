@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Welcome</title>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script>
+			$(document).ready(function() {
+				var id
+				var socket = io.connect('/')
+
+				socket.on('id', function(key) {
+					id = key
+				})
+
+				socket.on('callback', function(package) {
+					if (id = package['key']) {
+						alert(package['result'])
+					}
+				})
+
+				$('button').click(function() {
+					socket.emit('choose', {key: id, value: $(this).val()})
+				})
+			})
+		</script>
+	</head>
+	<body>
+		<button value='1'>1</button>
+		<button value='2'>2</button>
+		<button value='3'>3</button>
+		<button value='4'>4</button>
+		<button value='5'>5</button>
+		<button value='6'>6</button>
+		<button value='7'>7</button>
+		<button value='8'>8</button>
+		<button value='9'>9</button>
+	</body>
+</html>
