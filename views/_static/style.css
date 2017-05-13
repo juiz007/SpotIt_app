@@ -61,4 +61,27 @@ div.what
 	transform:rotatey(-5deg) rotatex(15deg) scale(1.25);
 }
 
+/* This section is for index.html (First page: Enter name) */
+#name {
+    color: black;
+    text-align: center;
+}
+
+#name-label {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 40px;
+}
+.center {
+	  text-align: center;
+     margin: 25% auto;
+}
+
+#enter-name{
+	padding: 0.5rem;
+}
+
+input[type=text] #name-label{
+		font-size: 1rem;
+}
+
 
