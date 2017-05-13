@@ -16,6 +16,7 @@
 				// ################# Initialize Phase ############### //
 				var id
 				var name
+				var score = 0
 				var socket = io.connect('/')
 
 				socket.on('id', function(key) {
@@ -32,6 +33,7 @@
 							alert('false')
 						} else {
 							showPic(package['card'])
+							$('#score').text(++score)
 						}
 					}
 				})
@@ -47,6 +49,7 @@
 							$('div').append(`<button id='start'>Go</button>`)
 							$('#start').click(function() {
 								socket.emit('start')
+								$('body').append(`<p>` + name + `: </p><p id='score'>` + score-- + `</p>`)
 							})
 						}
 					}

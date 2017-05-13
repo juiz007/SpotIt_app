@@ -6,9 +6,9 @@
 	path = require('path')
 
 // Set variable //
-	port = process.env.PORT || 5701
-	player = -1
-	countdown = 60 * 1000
+	port = process.env.PORT || 3000
+	player = 0
+	countdown = 8 * 1000
 	timer = null
 // Set route //
 	server.listen(port, '0.0.0.0')
@@ -28,11 +28,10 @@
 	
 // Socket.io
 	var user = io.of('/').on('connection', function(socket) {
-		player++
 		socket.emit('id', socket.id)
 
 		socket.on('enter', function(package) {
-			if (player == 1) {
+			if (++player == 1) {
 				stopCountdown()
 				admin.emit('active')
 			}
@@ -56,10 +55,6 @@
 	var admin = io.of('/tunnel').on(('connection'), function(socket) {
 		socket.on('acknowledge', function(package) {
 			user.emit('callback', package)
-		})
-
-		socket.on('disconnect', function(package) {
-			player = -1
 		})
 	})
 // Others
