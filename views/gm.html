@@ -15,7 +15,7 @@
 				var r_list = {}
 				var s_list = {}
 				var answer
-				var remain = 55
+				var remain = 4
 				var player = 0
 				var timer = null
 				var socket = io.connect('/tunnel')
@@ -30,9 +30,9 @@
 
 				socket.on('leaving', function(package) {
 					$('#' + package['key']).hide()
-					var index = list.indexOf(5)
-					list.splice(index, 1)
-					s_list.splice(index, 1)
+					delete list[package['key']]
+					delete s_list[package['key']]
+					delete r_list[package['key']]
 					player--
 				})
 
@@ -52,6 +52,7 @@
 					if (status) {
 						$('div').empty()
 						$('div').append(`<center><p style='margin-top: 40px; font-size: 50px'> Lobby </p></center>`)
+						$('div').append(`<p id='countdown'></p>`)
 					} else {
 						$('div').empty()
 						$('div').append(`<center><p style='margin-top: 100px; font-size: 50px'> Spot-It </p></center>`)
@@ -61,12 +62,12 @@
 				socket.on('ready', function(package) {
 					r_list[package['key']] = true
 					if (checkReady(r_list)) {
-						$('div').append(`<p id='countdown'></p>`)
+						$('#countdown').show()
 						startCountdown()
 					}
 				})
 
-				socket.on('not-ready', function(package) {
+				socket.on('notready', function(package) {
 					r_list[package['key']] = false
 					$('#countdown').hide()
 					stopCountdown()
@@ -87,8 +88,39 @@
 					if (remain != 0) {
 						showPic(answer)
 					} else {
-						showLeaderboard(list, s_list)
+						var arr = showLeaderboard(list, s_list)
+						var i = 0
+						for (var a in arr) {
+							$('body').append(`<center><p>` + list[a] + `: </p><p>` + s_list[a] + `</p>`)
+							socket.emit('acknowledge', {key: a, rank: i++, result: 'end'})
+						}
 					}
+				}
+
+				function startCountdown() {
+					var countdown = 5 * 1000
+					timer = setInterval(function(){
+						countdown -= 1000
+						var seconds = Math.floor((countdown % (1000 * 60)) / 1000)
+						$('#countdown').text(seconds)
+						if (countdown <= 0) {
+							$('div').empty()
+							init(player)
+							var i = 0
+							for (var k in list) {
+								socket.emit('acknowledge', {key: k, card: pile[i], result: 'none'})
+								i++
+							}
+							remain -= player
+							showScores(list, s_list)
+							nextPic()
+							clearInterval(timer)
+						}
+					}, 1000)
+				}
+
+				function stopCountdown() {
+					clearInterval(timer)
 				}
 			})
 		</script>

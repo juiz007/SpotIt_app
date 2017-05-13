@@ -39,6 +39,9 @@
 		socket.on('ready', function(package) {
 			admin.emit('ready', package)
 		})
+		socket.on('notready', function(package) {
+			admin.emit('notready', package)
+		})
 		socket.on('choose', function(package) {
  			admin.emit('submit', package)
 		})

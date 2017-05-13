@@ -22,32 +22,19 @@ function showScores(name, score) {
 
 function showLeaderboard(name, score) {
 	var i = 1
+	var sortable = []
 	$('body').empty()
 	$('body').append(`<center><p>Leaderboard</p><center>`)
-	score.sort(function(a, b){return a-b})
-	for (var k in score) {
-		$('body').append(`<center><p>` + name[k] + `: </p><p>` + score[k] + `</p>`)
-		socket.emit('acknowledge', {key: k, rank: i++, result: 'end'})
+
+	for (var s in score) {
+		sortable.push([s, score[s]])
 	}
+
+	sortable.sort(function(a, b){return a-b})
+
+	return sortable
 }
 
 function getPic(name) {
 	return symbol[name]
-}
-
-function startCountdown() {
-	var countdown = 5 * 1000
-	timer = setInterval(function(){
-		countdown -= 1000
-   		var seconds = Math.floor((countdown % (1000 * 60)) / 1000)
-   		$('#countdown').text(seconds)
-		if (countdown <= 0) {
-			clearInterval(timer)
-			admin.emit('inactive')
-		}
-	}, 1000)
-}
-
-function stopCountdown() {
-	clearInterval(timer)
 }
