@@ -49,7 +49,7 @@ var pile = [
 	["butterfly", "pig", "clip", "comb", "diamond", "planet", "can", "highheel"],
 	["duck", "watermelon", "rocket", "pig", "go", "snail", "gnome", "paintbrush"],
 	["magnet", "starfish", "ace", "clip", "acorn", "cupcake", "watermelon", "dynamite"],
-	["highheel", "badge", "highheel", "headphone", "duck", "ace", "lollipop", "fork"],
+	["wheel", "badge", "highheel", "headphone", "duck", "ace", "lollipop", "fork"],
 	["pumpkin", "hydrant", "jack", "lollipop", "watermelon", "toothbrush", "binky", "butterfly"],
 	["gnome", "starfish", "butterfly", "highheel", "hourglass", "trumpet", "tomato", "hammer"],
 	["gnome", "yay", "camera", "comb", "tower", "headphone", "dynamite", "binky"],

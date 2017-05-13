@@ -31,6 +31,9 @@
 					if (id == package['key']) {
 						if (package['result'] == 'false') {
 							alert('false')
+						} else if (package['result'] == 'end') {
+							$('body').empty()
+							$('body').append(`<p>Your Rank: ` + package['rank'] + `</p>`)
 						} else {
 							showPic(package['card'])
 							$('#score').text(++score)
@@ -46,9 +49,9 @@
 							name = $('#enter-name').val()
 							socket.emit('enter', {key: name})
 							$('div').empty()
-							$('div').append(`<button id='start'>Go</button>`)
-							$('#start').click(function() {
-								socket.emit('start')
+							$('div').append(`<button id='ready'>Ready</button>`)
+							$('#ready').click(function() {
+								socket.emit('ready', {key: id})
 								$('body').append(`<p>` + name + `: </p><p id='score'>` + score-- + `</p>`)
 							})
 						}

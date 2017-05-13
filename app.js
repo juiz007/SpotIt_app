@@ -8,7 +8,6 @@
 // Set variable //
 	port = process.env.PORT || 3000
 	player = 0
-	countdown = 8 * 1000
 	timer = null
 // Set route //
 	server.listen(port, '0.0.0.0')
@@ -37,8 +36,8 @@
 			}
 			admin.emit('joining', {name: package['key'], key: socket.id})
 		})
-		socket.on('start', function() {
-			admin.emit('init', {player: player})
+		socket.on('ready', function(package) {
+			admin.emit('ready', package)
 		})
 		socket.on('choose', function(package) {
  			admin.emit('submit', package)
@@ -57,8 +56,9 @@
 			user.emit('callback', package)
 		})
 	})
-// Others
+
 	function startCountdown() {
+		var countdown = 8 * 1000
 		timer = setInterval(function(){
 			countdown -= 1000;
 			if (countdown <= 0) {
