@@ -1,40 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<intercept-url pattern="/favicon.ico" access="ROLE_ANONYMOUS" />
 	<head>
-		<meta charset="UTF-8">
-		<title>Welcome</title>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<meta charset='UTF-8'>
+		<title>Player</title>
+		<script type='text/javascript' src='/static/lib/jquery-3.2.0.min.js'></script>
+		<script type='text/javascript' src='/socket.io/socket.io.js'></script>
+		<script type= 'text/javascript' src='/static/function.js'></script>
+		<script type= 'text/javascript' src='/static/card.js'></script>
 		<script>
 			$(document).ready(function() {
+				// ################# Initialize Phase ############### //
 				var id
+				var name
 				var socket = io.connect('/')
 
 				socket.on('id', function(key) {
 					id = key
 				})
-
+				// ################ Playing Phase ################ //
+				$('body').on('click', 'img', function() {
+					socket.emit('choose', {key: id, value: $(this).attr('value')})	
+				})
+							
 				socket.on('callback', function(package) {
-					if (id = package['key']) {
-						alert(package['result'])
+					if (id == package['key']) {
+						if (package['result'] == 'false') {
+							alert('false')
+						} else {
+							showPic(package['card'])
+						}
 					}
 				})
-
-				$('button').click(function() {
-					socket.emit('choose', {key: id, value: $(this).val()})
+				// ######################################### //
+				$('#enter-name').keypress(function(e){
+					if (e.keyCode==13) {
+						if ($('#enter-name').val().length == 0) {
+							alert('Name must contain at least 1 character')
+						} else {
+							name = $('#enter-name').val()
+							socket.emit('enter', {key: name})
+							$('div').empty()
+							$('div').append(`<button id='start'>Go</button>`)
+							$('#start').click(function() {
+								socket.emit('start')
+							})
+						}
+					}
 				})
 			})
 		</script>
 	</head>
 	<body>
-		<button value='1'>1</button>
-		<button value='2'>2</button>
-		<button value='3'>3</button>
-		<button value='4'>4</button>
-		<button value='5'>5</button>
-		<button value='6'>6</button>
-		<button value='7'>7</button>
-		<button value='8'>8</button>
-		<button value='9'>9</button>
+		<div>
+			<p>Enter Name: </p>
+			<input id='enter-name' type='text'></div>
+		</div>
 	</body>
 </html>

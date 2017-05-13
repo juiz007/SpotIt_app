@@ -1,29 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 	<head>
-		<title>Welcome To Spot-It Game</title>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-		<script>
+		<title>Game Master</title>
+		<script type= 'text/javascript' src='/static/lib/jquery-3.2.0.min.js'></script>
+		<script type= 'text/javascript' src='/socket.io/socket.io.js'></script>
+		<script type= 'text/javascript' src='/static/function.js'></script>
+		<script type= 'text/javascript' src='/static/pile.js'></script>
+		<script type= 'text/javascript' src='/static/card.js'></script>
+		<script> 
 			$(document).ready(function() {
-				var num = (Math.random()*10).toFixed()
-				$('#point').text(num)
-
+				var list = {}
+				var answer
+				var remain = 55
 				var socket = io.connect('/tunnel')
-				socket.on('submit', function(value) {
-					var msg = 'wrong'
-					if (value == num){
-						msg = 'correct'
-						num = (Math.random()*10).toFixed()
-						$('#point').text(num)
-					}
-					socket.emit('acknowledge', msg)
+				// ################# Initialize Phase ############### //
+				socket.on('joining', function(package) {
+					list[package['key']] = package['name']
+					addToLobby(package['key'])
 				})
+
+				socket.on('leaving', function(package) {
+					$('#' + package['key']).hide()
+				})
+
+				socket.on('active', function() {
+					setActive(true)
+				})
+
+				socket.on('inactive', function() {
+					setActive(false)
+				})
+
+				function addToLobby(key) {
+					$('div').append(`<p style='margin-left: 50px; font-size: 20px' id=` + key + `>`+ list[key] +`<p>`)
+				}
+
+				function setActive(status) {
+					if (status) {
+						$('div').empty()
+						$('div').append(`<center><p style='margin-top: 40px; font-size: 50px'> Lobby </p></center>`)
+					} else {
+						$('div').empty()
+						$('div').append(`<center><p style='margin-top: 100px; font-size: 50px'> Spot-It </p></center>`)
+					}
+				}
+				// ################ Playing Phase ################ //
+				socket.on('init', function(package) {
+					init(package['player'])
+					var i = 0
+					for (var k in list) {
+						socket.emit('acknowledge', {key: k, card: pile[i], result: 'none'})
+						i++
+					}
+					remain -= package['player']
+					nextPic()
+				})
+
+				socket.on('submit', function(package) {
+					if (answer.indexOf(package['value']) != -1) {
+						socket.emit('acknowledge', {key: package['key'], card: answer, result:'true'})
+						nextPic()
+					} else {
+						socket.emit('acknowledge', {key: package['key'], card: null, result:'false'})
+					}
+				})
+
+				function nextPic() {
+					answer = pile[55 - --remain]
+					if (remain != 0) {
+						alert(remain)
+						showPic(answer)
+					} else {
+						alert('Pile is empty')
+					}
+				}
 			})
 		</script>
 	</head>
 	<body>
-		<p style='font-size: 30px'> The answer is: </p>
-		<p id='point' style='font-size: 50px'></p>
+		<div>
+			<center><p style='margin-top: 100px ; font-size: 50px'> Spot-It </p></center>
+		</div>
 	</body>
 </html>
