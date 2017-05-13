@@ -12,12 +12,14 @@
 		<script> 
 			$(document).ready(function() {
 				var list = {}
+				var s_list = {}
 				var answer
 				var remain = 55
 				var socket = io.connect('/tunnel')
 				// ################# Initialize Phase ############### //
 				socket.on('joining', function(package) {
 					list[package['key']] = package['name']
+					s_list[package['name']] = 0
 					addToLobby(package['key'])
 				})
 
@@ -55,12 +57,14 @@
 						i++
 					}
 					remain -= package['player']
+					showScores(list, s_list)
 					nextPic()
 				})
 
 				socket.on('submit', function(package) {
 					if (answer.indexOf(package['value']) != -1) {
 						socket.emit('acknowledge', {key: package['key'], card: answer, result:'true'})
+						$('#' + package['key']).text(++s_list[list[package['key']]])
 						nextPic()
 					} else {
 						socket.emit('acknowledge', {key: package['key'], card: null, result:'false'})
@@ -70,10 +74,9 @@
 				function nextPic() {
 					answer = pile[55 - --remain]
 					if (remain != 0) {
-						alert(remain)
 						showPic(answer)
 					} else {
-						alert('Pile is empty')
+						showLeaderboard(list, s_list)
 					}
 				}
 			})

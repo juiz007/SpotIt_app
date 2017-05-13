@@ -111,7 +111,7 @@ var symbol =
 		tower : '_static/pic/tower.png' ,
 		trumpet : '_static/pic/trumpet.png' ,
 		watermelon : '_static/pic/watermelon.png' ,
-		well : '_static/pic/well.png' ,
 		wheel : '_static/pic/wheel.png' ,
+		well : '_static/pic/well.png',
 		yay : '_static/pic/yay.png' 
 	}

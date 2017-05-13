@@ -1,19 +1,19 @@
 {
-  "name": "spot-it",
-  "version": "0.0.1",
-  "description": "An implementation of Spot It game into web application",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/juiz007/SpotIt_app.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/juiz007/SpotIt_app/issues"
-  },
-  "homepage": "https://github.com/juiz007/SpotIt_app#readme"
+	"name": "spot-it",
+	"version": "0.0.1",
+	"description": "An implementation of Spot It game into web application",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/juiz007/SpotIt_app.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/juiz007/SpotIt_app/issues"
+	},
+	"homepage": "https://github.com/juiz007/SpotIt_app#readme"
 }

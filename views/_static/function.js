@@ -5,6 +5,20 @@ function showPic(set) {
 	}
 }
 
+function showScores(name, score) {
+	for (var k in name) {
+		$('body').append(`<p>` + name[k] + `: </p><p id='` + k + `'>` + score[name[k]] + `</p>`)
+	}
+}
+
+function showLeaderboard(name, score) {
+	$('body').empty()
+	$('body').append(`<center><p>Leaderboard</p><center>`)
+	for (var k in name) {
+		//
+	}
+}
+
 function getPic(name) {
 	return symbol[name]
 }
