@@ -1,0 +1,30 @@
+/* This section is for index.html (First page: Enter name) */
+
+html, body {
+    background-color: #FFC200;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+#name {
+    color: black;
+    text-align: center;
+}
+
+p {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2rem;
+}
+.center {
+	  text-align: center;
+     margin: 25% auto;
+}
+
+#enter-name{
+	padding: 0.5rem;
+}
+input[type=text]{
+		font-size: 1rem;
+}

@@ -2,8 +2,10 @@
 <html lang='en'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <intercept-url pattern="/favicon.ico" access="ROLE_ANONYMOUS" />
+
 	<head>
 		<meta charset='UTF-8'>
+		<link href="_static/style_index.css" rel="stylesheet" />
 		<title>Player</title>
 		<script type='text/javascript' src='/static/lib/jquery-3.2.0.min.js'></script>
 		<script type='text/javascript' src='/socket.io/socket.io.js'></script>
@@ -53,8 +55,8 @@
 		</script>
 	</head>
 	<body>
-		<div>
-			<p>Enter Name: </p>
+		<div class="center">
+			<p id = 'name-label'>Please enter your name: </p>
 			<input id='enter-name' type='text'></div>
 		</div>
 	</body>
