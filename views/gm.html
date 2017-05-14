@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang='en'>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no'>
 	<head>
 		<title>Game Master</title>
-		<link href="_static/style.css" rel="stylesheet" />
+		<link rel='stylesheet' href='static/style.css' />
 		<script type= 'text/javascript' src='/static/lib/jquery-3.2.0.min.js'></script>
 		<script type= 'text/javascript' src='/socket.io/socket.io.js'></script>
 		<script type= 'text/javascript' src='/static/function.js'></script>
@@ -76,7 +76,7 @@
 				})
 				// ################ Playing Phase ################ //
 				socket.on('submit', function(package) {
-					if (answer.indexOf(package['value']) != -1) {
+					if (answer.indexOf(package['value']) != -1 || answer.indexOf('hand') != -1) {
 						socket.emit('acknowledge', {key: package['key'], card: answer, result:'true'})
 						$('#' + package['key']).text(++s_list[package['key']])
 						nextPic()
@@ -128,11 +128,8 @@
 		</script>
 	</head>
 	<body>
-		<div class="what">
-			<a class="buzz" href="#">Spot It</a>
+		<div class='what'>
+			<p class='buzz'>Spot It</a>
 		</div>
-		<!-- <div>
-			<center><p style='margin-top: 100px ; font-size: 50px'> Spot-It </p></center>
-		</div> -->
 	</body>
 </html>

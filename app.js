@@ -10,12 +10,12 @@
 	player = 0
 	timer = null
 
+// Set environment
 	server.listen(port)
-	console.log('Server starting on port: ' + port)
-
 	app.use(express.static(__dirname + '/views/'))
-	app.use('/static', express.static(__dirname + '/views/_static/'));
-	app.disable('etag');
+	app.use('/static', express.static(__dirname + '/views/_static/'))
+	app.disable('etag')
+
 // Set route //
 	app.get('/', function(req, res) {
 		res.sendFile(__dirname + '/views/index.html')
@@ -59,7 +59,7 @@
 			user.emit('callback', package)
 		})
 	})
-
+// Others
 	function startCountdown() {
 		var countdown = 8 * 1000
 		timer = setInterval(function(){
@@ -74,3 +74,5 @@
 	function stopCountdown() {
 		clearInterval(timer)
 	}
+
+	console.log('Server starting on port: ' + port)
