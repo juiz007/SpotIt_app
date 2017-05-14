@@ -61,23 +61,21 @@
 					switch(part) {
 						case 2:
 							setBackground(part)
-							$('div').append(`<button id='ready'>Ready</button>
-										  <button id='notready'>Not Ready</button>`)
-							$('#ready').click(function() {
-								socket.emit('ready', {key: id})
-								$('#notready').show()
-								$(this).hide()
+							$('div').append(`<div class="wrapper">
+											<p id='state' class="button">Ready!</a>
+										  </div>`)
+							$('#state').click(function() {
+								if ($('#state').text() == 'Ready!') {
+									$('#state').text('Not Ready!')
+								} else {
+									$('#state').text('Ready!')
+								}
 							})
-							$('#notready').click(function() {
-								socket.emit('notready', {key: id})
-								$('#ready').show()
-								$(this).hide()
-							})
-							$('#notready').hide()
 							break
 						case 3:
 							setBackground(part)
-							$('body').prepend(`<p class='score-label'>Your Score: </p><p id = 'score'>` + score + `<p>`)
+							$('body').prepend(`<p class='score-label'>Your Score: </p>
+										    <p id ='score' class='score-label'>` + score + `<p>`)
 							showPic(element)
 							break
 						case 4:
@@ -112,13 +110,13 @@
 							break
 						case 3:
 							$('body').css({
-								'background-color': 'WHITE',
+								'background-color': '#FFFFFF',
 								'height': '100%',
 								'width': '100%',
 								'padding': '0',
 								'margin': '0'
 							})
-							$('div').attr('class', 'score-label')
+							$('div').attr('class', 'container')
 							break
 						case 4:
 							$('body').css({
