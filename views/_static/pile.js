@@ -6,6 +6,17 @@ function init(player) {
 	centre = pile[pointer+1]
 }
 
+function showPic(set) {
+	$('div').empty()
+	for (var card in set) {
+		$('div').append(`<img height='150' src='` + getPic(set[card]) + `' value='` + set[card] + `' />`)
+	}
+}
+
+function getPic(name) {
+	return symbol[name]
+}
+
 function shuffle() {
 	var j, x, i = 55
 	while (i) {

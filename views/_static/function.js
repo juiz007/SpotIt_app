@@ -7,20 +7,13 @@ function checkReady(list) {
 	return true
 }
 
-function showPic(set) {
-	$('div').empty()
-	for (var card in set) {
-		$('div').append(`<img height='150' src='` + getPic(set[card]) + `' value='` + set[card] + `' />`)
-	}
-}
-
 function showScores(name, score) {
 	for (var k in name) {
 		$('body').append(`<p>` + name[k] + `: </p><p id='` + k + `'>` + score[k] + `</p>`)
 	}
 }
 
-function showLeaderboard(name, score) {
+function showLeaderboard(score) {
 	var i = 1
 	var sortable = []
 	$('body').empty()
@@ -33,8 +26,4 @@ function showLeaderboard(name, score) {
 	sortable.sort(function(a, b){return a-b})
 
 	return sortable
-}
-
-function getPic(name) {
-	return symbol[name]
 }

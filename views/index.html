@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang='en'>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<intercept-url pattern="/favicon.ico" access="ROLE_ANONYMOUS" />
 
 	<head>
-		<meta charset='UTF-8'>
-		<link href="_static/style_index.css" rel="stylesheet" />
 		<title>Player</title>
+		<link rel='stylesheet' href='static/style_index.css' />
 		<script type='text/javascript' src='/static/lib/jquery-3.2.0.min.js'></script>
 		<script type='text/javascript' src='/socket.io/socket.io.js'></script>
-		<script type= 'text/javascript' src='/static/function.js'></script>
-		<script type= 'text/javascript' src='/static/card.js'></script>
+		<script type='text/javascript' src='/static/card.js'></script>
+		<script type='text/javascript' src='/static/pile.js'></script>
 		<script>
 			$(document).ready(function() {
 				// ################# Initialize Phase ############### //
@@ -22,39 +20,50 @@
 				socket.on('id', function(key) {
 					id = key
 				})
-				// ################ Playing Phase ################ //
-				$('body').on('click', 'img', function() {
-					socket.emit('choose', {key: id, value: $(this).attr('value')})	
-				})
-							
+				// ################ Playing Phase ################ //							
 				socket.on('callback', function(package) {
 					if (id == package['key']) {
-						if (package['result'] == 'false') {
-							alert('false')
-						} else if (package['result'] == 'end') {
-							$('body').empty()
-							$('body').append(`<p>Your Rank: ` + package['rank'] + `</p>`)
-						} else if (package['result'] == 'none') {
-							$('div').empty()
-							$('body').append(`<p>Your Score: </p><p id = 'score'>` + score + `<p>`)
-							showPic(package['card'])
-						} else {
-							showPic(package['card'])
-							$('#score').text(++score)
+						switch (package['result']) {
+							case 'true': 	
+								showPic(package['card'])
+								$('#score').text(++score)
+								break
+							case 'false': 	
+								alert('false')
+								break
+							case 'end': 
+								ChangePage(4, package['rank'])
+								break
+							case 'none': 
+								ChangePage(3, package['card'])
+								break
 						}
 					}
 				})
 				// ######################################### //
-				$('#enter-name').keypress(function(e){
+				$('#enter').keypress(function(e){
 					if (e.keyCode==13) {
-						if ($('#enter-name').val().length == 0) {
+						if ($('#enter').val().length == 0) {
 							alert('Name must contain at least 1 character')
 						} else {
-							name = $('#enter-name').val()
+							name = $('#enter').val()
 							socket.emit('enter', {key: name})
-							$('div').empty()
-							$('div').append(`<button id='ready'>Ready</button><button id='notready'>Not Ready</button>`)
-							$('#notready').hide()
+							ChangePage(2, null)
+						}
+					}
+				})
+
+				$('body').on('click', 'img', function() {
+					socket.emit('choose', {key: id, value: $(this).attr('value')})	
+				})
+
+				function ChangePage(part, element) {
+					$('div').empty()
+					switch(part) {
+						case 2:
+							setBackground(part)
+							$('div').append(`<button id='ready'>Ready</button>
+										  <button id='notready'>Not Ready</button>`)
 							$('#ready').click(function() {
 								socket.emit('ready', {key: id})
 								$('#notready').show()
@@ -65,16 +74,72 @@
 								$('#ready').show()
 								$(this).hide()
 							})
-						}
+							$('#notready').hide()
+							break
+						case 3:
+							setBackground(part)
+							$('body').append(`<p>Your Score: </p><p id = 'score'>` + score + `<p>`)
+							showPic(element)
+							break
+						case 4:
+							setBackground(part)
+							$('body').empty()
+							$('body').append(`<p>Your Rank: ` + element + `</p>`)
+							break
 					}
-				})
+				}
+
+				function setBackground(page) {
+					switch (page) {
+						case 1:
+							$('body').css({
+								'background-color': '#FFC200',
+								'height': '100%',
+								'width': '100%',
+								'padding': '0',
+								'margin': '0'
+							})
+							$('div').attr('class', 'center')
+							break
+						case 2:
+							$('body').css({
+								'background-color': '#FFC200',
+								'height': '100%',
+								'width': '100%',
+								'padding': '0',
+								'margin': '0'
+							})
+							$('div').attr('class', '2')
+							break
+						case 3:
+							$('body').css({
+								'background-color': '#FFC200',
+								'height': '100%',
+								'width': '100%',
+								'padding': '0',
+								'margin': '0'
+							})
+							$('div').attr('class', '3')
+							break
+						case 4:
+							$('body').css({
+								'background-color': '#FFC200',
+								'height': '100%',
+								'width': '100%',
+								'padding': '0',
+								'margin': '0'
+							})
+							$('div').attr('class', '4')
+							break				
+					}
+				}
 			})
 		</script>
 	</head>
 	<body>
-		<div class="center">
-			<p id = 'name-label'>Please enter your name: </p>
-			<input id='enter-name' type='text'></div>
+		<div class='center'>
+			<p class='name-label'>Please enter your name: </p>
+			<input id='enter' class='enter-name' type='text'></div>
 		</div>
 	</body>
 </html>

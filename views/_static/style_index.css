@@ -8,7 +8,7 @@ html, body {
     margin: 0;
 }
 
-#name {
+.name-label {
     color: black;
     text-align: center;
 }
@@ -18,11 +18,11 @@ p {
     font-size: 2rem;
 }
 .center {
-	  text-align: center;
-     margin: 25% auto;
+    text-align: center;
+    margin: 25% auto;
 }
 
-#enter-name{
+.enter-name{
 	padding: 0.5rem;
 }
 input[type=text]{

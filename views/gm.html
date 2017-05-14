@@ -15,17 +15,19 @@
 				var r_list = {}
 				var s_list = {}
 				var answer
-				var remain = 4
+				var remain = 3
 				var player = 0
 				var timer = null
 				var socket = io.connect('/tunnel')
 				// ################# Initialize Phase ############### //
 				socket.on('joining', function(package) {
-					list[package['key']] = package['name']
-					s_list[package['key']] = 0
-					r_list[package['key']] = false
-					player++
-					addToLobby(package['key'])
+					if (package['key'] != null) {
+						list[package['key']] = package['name']
+						s_list[package['key']] = 0
+						r_list[package['key']] = false
+						player++
+						addToLobby(package['key'])
+					}
 				})
 
 				socket.on('leaving', function(package) {
@@ -88,15 +90,15 @@
 					if (remain != 0) {
 						showPic(answer)
 					} else {
-						var arr = showLeaderboard(list, s_list)
-						var i = 0
+						var arr = showLeaderboard(s_list)
+						var i = 1
 						for (var a in arr) {
-							$('body').append(`<center><p>` + list[a] + `: </p><p>` + s_list[a] + `</p>`)
-							socket.emit('acknowledge', {key: a, rank: i++, result: 'end'})
+							$('body').append(`<center><p>` + list[arr[a][0]] + `: </p><p>` + arr[a][1] + `</p></center>`)
+							socket.emit('acknowledge', {key: arr[a][0], rank: i++, result: 'end'})
 						}
 					}
 				}
-
+				// ############################################# //
 				function startCountdown() {
 					var countdown = 5 * 1000
 					timer = setInterval(function(){

@@ -9,14 +9,14 @@
 	port = process.env.PORT || 3000
 	player = 0
 	timer = null
-// Set route //
-	server.listen(port, '0.0.0.0')
+
+	server.listen(port)
 	console.log('Server starting on port: ' + port)
 
 	app.use(express.static(__dirname + '/views/'))
 	app.use('/static', express.static(__dirname + '/views/_static/'));
 	app.disable('etag');
-
+// Set route //
 	app.get('/', function(req, res) {
 		res.sendFile(__dirname + '/views/index.html')
 	})
