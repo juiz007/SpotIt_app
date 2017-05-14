@@ -85,7 +85,8 @@
 						case 4:
 							setBackground(part)
 							$('body').empty()
-							$('body').append(`<p>Your Rank: ` + element + `</p>`)
+							$('body').append(`<p class ='rank'>Your Rank:</p>`)
+							$('body').append(`<p class='rank'>` + element + `</p>`)
 							break
 					}
 				}
@@ -124,11 +125,11 @@
 							break
 						case 4:
 							$('body').css({
-								'background-color': '#FFC200',
+								'background-color': '#FFFFFF',
 								'height': '100%',
 								'width': '100%',
 								'padding': '0',
-								'margin': '0'
+								'margin': '25% auto'
 							})
 							$('div').attr('class', '4')
 							break				

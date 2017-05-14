@@ -1,6 +1,5 @@
 /* ####################### Enter Name ######################## */
 
-
 .name-label {
     font-family: "Times New Roman", Times, serif;
     font-size: 2rem;
@@ -25,5 +24,13 @@ input[type=text]{
 
 .score-label{
     text-align: right;
+    font-size: 2rem;
     margin: 0
 }
+
+/* ###################### Score Page ######################### */
+.rank{
+    text-align: center;
+    font-size: 2rem;
+}
+
