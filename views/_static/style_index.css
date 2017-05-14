@@ -28,3 +28,13 @@ p {
 input[type=text]{
 		font-size: 1rem;
 }
+
+.score-label{
+    text-align: right;
+    margin: 0
+}
+
+#score{
+    text-align: right;
+    margin: 0
+}
