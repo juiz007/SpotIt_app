@@ -19,6 +19,7 @@
 
 				socket.on('id', function(key) {
 					id = key
+					setBackground(1)
 				})
 				// ################ Playing Phase ################ //							
 				socket.on('callback', function(package) {
@@ -78,7 +79,7 @@
 							break
 						case 3:
 							setBackground(part)
-							$('body').prepend(`<p class='score-label'>Your Score: </p><p id = 'score'>` + score + `<p>`)
+							$('body').prepend(`<p class='score-label'>Your Score: </p><p id = 'score' class = 'score-label'>` + score + `<p>`)
 							showPic(element)
 							break
 						case 4:
@@ -113,13 +114,13 @@
 							break
 						case 3:
 							$('body').css({
-								'background-color': 'WHITE',
+								'background-color': '#FFFFFF',
 								'height': '100%',
 								'width': '100%',
 								'padding': '0',
 								'margin': '0'
 							})
-							$('div').attr('class', 'score-label')
+							$('div').attr('class', '3')
 							break
 						case 4:
 							$('body').css({
@@ -139,7 +140,7 @@
 	<body>
 		<div class='center'>
 			<p class='name-label'>Please enter your name: </p>
-			<input id='enter' class='enter-name' type='text'></div>
+			<input id='enter' class='enter-name' type='text'>
 		</div>
 	</body>
 </html>

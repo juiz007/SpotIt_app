@@ -1,22 +1,13 @@
-/* This section is for index.html (First page: Enter name) */
+/* ####################### Enter Name ######################## */
 
-html, body {
-    background-color: #FFC200;
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-}
 
 .name-label {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2rem;
     color: black;
     text-align: center;
 }
 
-p {
-    font-family: "Times New Roman", Times, serif;
-    font-size: 2rem;
-}
 .center {
     text-align: center;
     margin: 25% auto;
@@ -24,17 +15,15 @@ p {
 
 .enter-name{
 	padding: 0.5rem;
+    text-align: center;
 }
 input[type=text]{
 		font-size: 1rem;
 }
 
-.score-label{
-    text-align: right;
-    margin: 0
-}
+/* ###################### Playing page ####################### */
 
-#score{
+.score-label{
     text-align: right;
     margin: 0
 }
