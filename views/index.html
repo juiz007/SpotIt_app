@@ -77,7 +77,7 @@
 							break
 						case 3:
 							setBackground(part)
-							$('body').append(`<p>Your Score: </p><p id = 'score'>` + score + `<p>`)
+							$('body').prepend(`<p class='score-label'>Your Score: </p><p id = 'score'>` + score + `<p>`)
 							showPic(element)
 							break
 						case 4:
@@ -112,13 +112,13 @@
 							break
 						case 3:
 							$('body').css({
-								'background-color': '#FFC200',
+								'background-color': 'WHITE',
 								'height': '100%',
 								'width': '100%',
 								'padding': '0',
 								'margin': '0'
 							})
-							$('div').attr('class', '3')
+							$('div').attr('class', 'score-label')
 							break
 						case 4:
 							$('body').css({
