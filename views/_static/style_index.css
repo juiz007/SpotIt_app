@@ -1,19 +1,9 @@
-html, body {
-    background-color: #FFC200;
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-}
-
+/* ####################### Enter Name ######################## */
 .name-label {
-    color: black;
-    text-align: center;
-}
-
-p {
     font-family: "Times New Roman", Times, serif;
     font-size: 2rem;
+    color: black;
+    text-align: center;
 }
 
 .center {
@@ -21,13 +11,111 @@ p {
     margin: 25% auto;
 }
 
-.enter-name{
+.enter-name {
 	padding: 0.5rem;
+    text-align: center;
 }
-input[type=text]{
-		font-size: 1rem;
+
+input[type=text] {
+	font-size: 1rem;
 }
+
+/* ###################### Ready page ####################### */
+a {
+  color: #333;
+  text-decoration: none;
+  transition: 0.3s all ease;
+}
+
+a:hover {
+  color: tomato;
+}
+
+a:focus {
+  text-decoration: none;
+}
+
+a:active {
+  color: #FFF;
+}
+
+body {
+  padding: 0px 20px;
+  margin: 0;
+  font-family: "Source Sans Pro",sans-serif;
+  background: #333;
+  -webkit-font-smoothing: antialiased
+}
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  width: 150px;
+  height: 150px;
+  text-align: center;
+  line-height: 150px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+  position: relative;
+}
+
+.btn:after {
+  transition: 0.3s all ease;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  border-radius: 3px;
+  border: 3px solid tomato
+}
+
+.btn:before {
+  content: '';
+  position: absolute;
+  border-radius: 3px;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  transform: rotate(45deg);
+  background: #fff;
+  z-index: -1
+}
+
+.btn:hover:after {
+  transform: rotate(45deg)
+}
+
+.btn:active {
+  transform: scale(1.1)
+}
+
+.btn:active:before {
+  background-color: #f1481b
+}
+
+.btn:active:after {
+  border-color: #f1481b
+}
+
+/* ###################### Playing page ####################### */
 
 .score-label{
     text-align: right;
+    font-size: 2rem;
     margin: 0
+}
+
+/* ###################### Score Page ######################### */
+.rank{
+    text-align: center;
+    font-size: 2rem;
+}

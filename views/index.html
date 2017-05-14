@@ -18,6 +18,7 @@
 
 				socket.on('id', function(key) {
 					id = key
+					setBackground(1)
 				})
 				// ################ Playing Phase ################ //							
 				socket.on('callback', function(package) {
@@ -62,13 +63,15 @@
 						case 2:
 							setBackground(part)
 							$('div').append(`<div class="wrapper">
-											<p id='state' class="button">Ready!</a>
+											<a href="#" id="state" class="btn">Ready</a>
 										  </div>`)
 							$('#state').click(function() {
-								if ($('#state').text() == 'Ready!') {
-									$('#state').text('Not Ready!')
+								if($(this).text() == 'Ready') {
+									$(this).text('Not Ready')
+									socket.emit('ready', {key: id})
 								} else {
-									$('#state').text('Ready!')
+									$(this).text('Ready')
+									socket.emit('notready', {key: id})
 								}
 							})
 							break
@@ -81,7 +84,8 @@
 						case 4:
 							setBackground(part)
 							$('body').empty()
-							$('body').append(`<p>Your Rank: ` + element + `</p>`)
+							$('body').append(`<p class ='rank'>Your Rank:</p>`)
+							$('body').append(`<p class='rank'>` + element + `</p>`)
 							break
 					}
 				}
@@ -120,11 +124,11 @@
 							break
 						case 4:
 							$('body').css({
-								'background-color': '#FFC200',
+								'background-color': '#FFFFFF',
 								'height': '100%',
 								'width': '100%',
 								'padding': '0',
-								'margin': '0'
+								'margin': '25% auto'
 							})
 							$('div').attr('class', '4')
 							break				
@@ -136,7 +140,7 @@
 	<body>
 		<div class='center'>
 			<p class='name-label'>Please enter your name: </p>
-			<input id='enter' class='enter-name' type='text'></div>
+			<input id='enter' class='enter-name' type='text'>
 		</div>
 	</body>
 </html>
