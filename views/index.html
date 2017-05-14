@@ -63,14 +63,14 @@
 						case 2:
 							setBackground(part)
 							$('div').append(`<div class="wrapper">
-											<a href="#" id="state" class="btn">Ready</a>
+											<a href="#" id="state" class="btn">Click to Ready</a>
 										  </div>`)
 							$('#state').click(function() {
-								if($(this).text() == 'Ready') {
-									$(this).text('Not Ready')
+								if($(this).text() == 'Click to Ready') {
+									$(this).text('Click to Un-Ready')
 									socket.emit('ready', {key: id})
 								} else {
-									$(this).text('Ready')
+									$(this).text('Click to Ready')
 									socket.emit('notready', {key: id})
 								}
 							})
