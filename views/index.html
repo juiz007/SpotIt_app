@@ -13,12 +13,23 @@
 				// ################# Initialize Phase ############### //
 				var id
 				var name
+				var count = 0
 				var score = 0
 				var socket = io.connect('/')
 
 				socket.on('id', function(key) {
-					id = key
-					setBackground(1)
+					if (key != null) {
+						id = key
+					}
+					ChangePage(1, null)
+				})
+
+				socket.on('gameStarted', function(package) {
+					if (package['response'] == 'yes') {
+						alert('Game was already started, please wait until the game end.')
+					} else {
+						ChangePage(2, null)
+					}
 				})
 				// ################ Playing Phase ################ //							
 				socket.on('callback', function(package) {
@@ -29,19 +40,24 @@
 								$('#score').text(++score)
 								break
 							case 'false':
-								$('#ban').show()
-								$('img').each(function() {
-									$(this).hide()
-								})
-								setTimeout(function(){
+								if (++count%3 == 0) {
+									$('#ban').show()
 									$('img').each(function() {
-										$('#ban').hide()
-										$(this).show()
+										$(this).hide()
 									})
-								}, 10000)
+									setTimeout(function(){
+										$('img').each(function() {
+											$('#ban').hide()
+											$(this).show()
+										})
+									}, 10000)
+									break
+								}
+								alert('You pick the wrong one')
 								break
 							case 'end': 
 								ChangePage(4, package['rank'])
+								count = 0
 								break
 							case 'none': 
 								ChangePage(3, package['card'])
@@ -49,26 +65,32 @@
 						}
 					}
 				})
-				// ######################################### //
-				$('#enter').keypress(function(e){
-					if (e.keyCode==13) {
-						if ($('#enter').val().length == 0) {
-							alert('Name must contain at least 1 character')
-						} else {
-							name = $('#enter').val()
-							socket.emit('enter', {key: name})
-							ChangePage(2, null)
-						}
-					}
-				})
-
+				
 				$('body').on('click', 'img', function() {
 					socket.emit('choose', {key: id, value: $(this).attr('value')})	
 				})
-
+				// ######################################### //
 				function ChangePage(part, element) {
 					$('div').empty()
 					switch(part) {
+						case 1:
+							$('body').empty()
+							$('body').append(`<div class='what'>
+											<p class='name-label'>Please enter your name: </p>
+											<input id='enter' class='enter-name' type='text' />
+										   </div>`)
+							$('#enter').keypress(function(e){
+								if (e.keyCode==13) {
+									if ($('#enter').val().length == 0) {
+										alert('Name must contain at least 1 character')
+									} else {
+										name = $('#enter').val()
+										socket.emit('enter', {key: name})
+									}
+								}
+							})
+							setBackground(part)
+							break
 						case 2:
 							setBackground(part)
 							$('div').append(`<div class="wrapper">
@@ -141,7 +163,6 @@
 								'padding': '0',
 								'margin': '25% auto'
 							})
-							$('div').attr('class', '4')
 							break				
 					}
 				}
@@ -149,9 +170,5 @@
 		</script>
 	</head>
 	<body>
-		<div class='center'>
-			<p class='name-label'>Please enter your name: </p>
-			<input id='enter' class='enter-name' type='text'>
-		</div>
 	</body>
 </html>

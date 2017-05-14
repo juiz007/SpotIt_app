@@ -16,7 +16,7 @@
 				var r_list = {}
 				var s_list = {}
 				var answer
-				var remain = 55
+				var remain = 3
 				var player = 0
 				var timer = null
 				var ready = false
@@ -27,7 +27,9 @@
 						list[package['key']] = package['name']
 						s_list[package['key']] = 0
 						r_list[package['key']] = false
-						player++
+						if (++player == 1) {
+							setActive(true)
+						}
 						addToLobby(package['key'])
 					}
 				})
@@ -38,10 +40,6 @@
 					delete s_list[package['key']]
 					delete r_list[package['key']]
 					player--
-				})
-
-				socket.on('active', function() {
-					setActive(true)
 				})
 
 				socket.on('inactive', function() {
@@ -59,7 +57,7 @@
 						createCountdown()
 					} else {
 						$('#container').empty()
-						$('#container').append(`<p>Spot-It</p>`)
+						$('#container').append(`<p class='buzz'>Spot-It</p>`)
 					}
 				}
 
@@ -80,26 +78,38 @@
 				// ################ Playing Phase ################ //
 				socket.on('submit', function(package) {
 					if (answer.indexOf(package['value']) != -1 || answer.indexOf('hand') != -1) {
-						socket.emit('acknowledge', {key: package['key'], card: answer, result:'true'})
+						var temp = answer
 						$('#' + package['key']).text(++s_list[package['key']])
-						nextPic()
+						if (nextPic()) {
+							socket.emit('acknowledge', {key: package['key'], card: temp, result:'true'})
+						} else {
+							showResult()
+						}
 					} else {
 						socket.emit('acknowledge', {key: package['key'], card: null, result:'false'})
 					}
 				})
 
 				function nextPic() {
-					answer = pile[55 - --remain]
-					if (remain != 0) {
+					if (--remain != 0) {
+						answer = pile[55 - remain]
 						showPic(answer)
-					} else {
-						var arr = showLeaderboard(s_list)
-						var i = 1
-						for (var a in arr) {
-							$('body').append(`<center><p>` + list[arr[a][0]] + `: </p><p>` + arr[a][1] + `</p></center>`)
-							socket.emit('acknowledge', {key: arr[a][0], rank: i++, result: 'end'})
-						}
+						return true
 					}
+					return false
+				}
+
+				function showResult() {
+					var arr = showLeaderboard(s_list)
+					var i = 1
+					for (var a in arr) {
+						$('body').append(`<center><p>` + list[arr[a][0]] + `: </p><p>` + arr[a][1] + `</p></center>`)
+						socket.emit('acknowledge', {key: arr[a][0], rank: i++, result: 'end'})
+					}
+					setTimeout(function(){
+						socket.emit('gameStarted')
+						restartGame()
+					}, 30000)
 				}
 				// ############################################# //
 				function startCountdown() {
@@ -107,6 +117,7 @@
 					var s = 5
 					function countdown(){
 						if (s < 0) {
+							$('body').css({'background-color': '#e6e6e6'})
 							$('#container').empty()
 							init(player)
 							var i = 0
@@ -114,6 +125,7 @@
 								socket.emit('acknowledge', {key: k, card: pile[i], result: 'none'})
 								i++
 							}
+							socket.emit('gameStarted')
 							remain -= player
 							showScores(list, s_list)
 							nextPic()
@@ -122,6 +134,7 @@
 						$('#wrap').removeAttr('class')
 						setTimeout(function(){
 							if (!ready) {
+								$('body').css({'background-color': '#e6e6e6'})
 								return
 							}
 							$('#wrap').addClass('wrap-' + s)
@@ -133,12 +146,22 @@
 					}
 					countdown()
 				}
+
+				function restartGame() {
+					list = {}
+					r_list = {}
+					s_list = {}
+					player = 0
+					$('body').empty()
+					$('body').append(`<div id='container' class='what'></div>`)
+					setActive(false)
+				}
 			})
 		</script>
 	</head>
 	<body>
 		<div id='container' class='what'>
-			<p class='buzz'>Spot It</a>
+			<p class='buzz'>Spot It</p>
 		</div>
 	</body>
 </html>
