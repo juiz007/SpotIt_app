@@ -6,7 +6,7 @@ function createCountdown() {
 					<div class="n"></div>
 					<div class="t"></div>
 			    </div>
-			<svg>
+			<svg style='visibility: hidden;'>
 				<defs>
 					<filter id="filter">
 						<feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur" />
@@ -15,7 +15,7 @@ function createCountdown() {
 					</filter>
 				</defs>
 			</svg>`)
-	$('#wrap').hide()
+	$('#wrap').css('visibility','hidden')
 }
 
 function checkReady(list) {

@@ -33,7 +33,7 @@
 				})
 
 				socket.on('leaving', function(package) {
-					$('#' + package['key']).hide()
+					$('#' + package['key']).css('visibility','hidden')
 					delete list[package['key']]
 					delete s_list[package['key']]
 					delete r_list[package['key']]
@@ -67,7 +67,7 @@
 					r_list[package['key']] = true
 					if (checkReady(r_list)) {
 						ready = true
-						$('#wrap').show()
+						$('#wrap').css('visibility','visible')
 						startCountdown()
 					}
 				})
@@ -75,7 +75,7 @@
 				socket.on('notready', function(package) {
 					r_list[package['key']] = false
 					ready = false
-					$('#wrap').hide()
+					$('#wrap').css('visibility','hidden')
 				})
 				// ################ Playing Phase ################ //
 				socket.on('submit', function(package) {
