@@ -68,6 +68,9 @@
 				user.emit('id')
 			}
 		})
+		socket.on('disconnect', function() {
+			started = false
+		})
 	})
 // Others
 	function startCountdown() {

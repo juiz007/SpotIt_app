@@ -98,7 +98,7 @@
 										  </div>`)
 							$('#state').click(function() {
 								if($(this).text() == 'Click to Ready') {
-									$(this).text('Click to Un-Ready')
+									$(this).text('Click to Not Ready')
 									socket.emit('ready', {key: id})
 								} else {
 									$(this).text('Click to Ready')
