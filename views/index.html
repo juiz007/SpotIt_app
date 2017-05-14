@@ -110,7 +110,7 @@
 							setBackground(part)
 							$('body').prepend(`<p class='score-label'>Your Score: </p>
 										    <p id ='score' class='score-label'>` + score + `<p>`)
-							$('body').prepend(`<p id='ban'>You got banned, from picking the wrong one</p>`)
+							$('body').prepend(`<p id='ban'>You got TEMPORALLY banned, from picking the wrong one</p>`)
 							$('#ban').hide()
 							showPic(element)
 							break
@@ -127,7 +127,7 @@
 					switch (page) {
 						case 1:
 							$('body').css({
-								'background-color': '#FFC200',
+								'background-color':'#FFD46C',
 								'height': '100%',
 								'width': '100%',
 								'padding': '0',
@@ -137,17 +137,17 @@
 							break
 						case 2:
 							$('body').css({
-								'background-color': '#FFC200',
+								'background-color':'#FFD46C',
 								'height': '100%',
 								'width': '100%',
 								'padding': '0',
 								'margin': '0'
 							})
-							$('div').attr('class', '2')
+							$('div').attr('class', 'what')
 							break
 						case 3:
 							$('body').css({
-								'background-color': '#FFFFFF',
+								'background-color':'#FFD46C',
 								'height': '100%',
 								'width': '100%',
 								'padding': '0',
