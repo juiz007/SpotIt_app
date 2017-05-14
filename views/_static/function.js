@@ -43,7 +43,7 @@ function showLeaderboard(score) {
 		sortable.push([s, score[s]])
 	}
 
-	sortable.sort(function(a, b){return a-b})
+	sortable.sort(function(a, b){return b-a})
 
 	return sortable
 }

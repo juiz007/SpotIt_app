@@ -16,7 +16,7 @@
 				var r_list = {}
 				var s_list = {}
 				var answer
-				var remain = 5
+				var remain = 55
 				var player = 0
 				var timer = null
 				var ready = false
@@ -102,29 +102,6 @@
 					}
 				}
 				// ############################################# //
-				// function startCountdown() {
-				// 	var i = 5
-				// 	$('#wrap') = $('#wrap')
-				// 	timer = setInterval(function(){
-				// 		countdown -= 1000
-				// 		var s = Math.floor((countdown % (1000 * 60)) / 1000)
-				// 		if (countdown <= 0) {
-				// 			$('#container').empty()
-				// 			init(player)
-				// 			var i = 0
-				// 			for (var k in list) {
-				// 				socket.emit('acknowledge', {key: k, card: pile[i], result: 'none'})
-				// 				i++
-				// 			}
-				// 			remain -= player
-				// 			showScores(list, s_list)
-				// 			nextPic()
-				// 			clearInterval(timer)
-				// 		}
-				// 		$('#wrap').removeAttr('class')
-				// 		$('#wrap').addClass('wrap-' + s)
-				// 	})
-				// }
 				function startCountdown() {
 					$('body').css({'background-color': '#FFC200'})
 					var s = 5
