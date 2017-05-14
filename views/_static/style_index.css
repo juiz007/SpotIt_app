@@ -96,7 +96,7 @@ body {
 .btn:before {
   content: '';
   position: absolute;
-  border-radius: 3px;
+  border-radius: 30px;
   left: 0;
   top: 0;
   bottom: 0;
@@ -108,6 +108,8 @@ body {
 
 .btn:hover:after {
   transform: rotate(225deg)
+
+  
 }
 
 .btn:active {
