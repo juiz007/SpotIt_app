@@ -29,7 +29,7 @@ function checkReady(list) {
 
 function showScores(name, score) {
 	for (var k in name) {
-		$('body').append(`<p>` + name[k] + `: </p><p id='` + k + `'>` + score[k] + `</p>`)
+		$('body').append(`<span class='score'>` + name[k] + `: </span><span id='` + k + `' class='score'>` + score[k] + `</span><br>`)
 	}
 }
 

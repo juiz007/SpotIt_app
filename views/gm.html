@@ -4,7 +4,7 @@
 	<head>
 		<title>Game Master</title>
 		<link rel='stylesheet' href='static/lib/timer.css' />
-		<link rel='stylesheet' href='static/style.css' />
+		<link rel='stylesheet' href='_static/style.css' />
 		<script type= 'text/javascript' src='/static/lib/jquery-3.2.0.min.js'></script>
 		<script type= 'text/javascript' src='/socket.io/socket.io.js'></script>
 		<script type= 'text/javascript' src='/static/function.js'></script>
@@ -16,7 +16,7 @@
 				var r_list = {}
 				var s_list = {}
 				var answer
-				var remain = 3
+				var remain = 20
 				var player = 0
 				var timer = null
 				var ready = false
@@ -30,6 +30,7 @@
 						if (++player == 1) {
 							setActive(true)
 						}
+						ready = false
 						addToLobby(package['key'])
 					}
 				})
@@ -47,13 +48,13 @@
 				})
 
 				function addToLobby(key) {
-					$('#container').append(`<p style='margin-left: 50px; font-size: 20px' id=` + key + `>`+ list[key] +`<p>`)
+					$('#container').append(`<span style='margin-left: 50px; font-size: 0.5em; color: red;' id=` + key + `>`+ list[key] +`</span>`)
 				}
 
 				function setActive(status) {
 					if (status) {
 						$('#container').empty()
-						$('#container').append(`<p>Lobby</p>`)
+						$('#container').append(`<p>Lobby</p><br><span style="font-size:0.7em;">Player List</span>`)
 						createCountdown()
 					} else {
 						$('#container').empty()
@@ -63,6 +64,7 @@
 
 				socket.on('ready', function(package) {
 					r_list[package['key']] = true
+					$('#' + package['key']).css('color', 'green')
 					if (checkReady(r_list)) {
 						ready = true
 						$('#wrap').css('visibility','visible')
@@ -72,6 +74,7 @@
 
 				socket.on('notready', function(package) {
 					r_list[package['key']] = false
+					$('#' + package['key']).css('color', 'red')
 					ready = false
 					$('#wrap').css('visibility','hidden')
 				})
@@ -91,13 +94,16 @@
 				})
 
 				function nextPic() {
-					if (--remain != 0) {
+					if (remain-- > 0) {
 						answer = pile[55 - remain]
 						showPic(answer)
 						return true
 					}
 					return false
 				}
+
+				
+
 
 				function showResult() {
 					var arr = showLeaderboard(s_list)
@@ -119,6 +125,7 @@
 						if (s < 0) {
 							$('body').css({'background-color': '#e6e6e6'})
 							$('#container').empty()
+							//$('#container').removeAttr('class')
 							init(player)
 							var i = 0
 							for (var k in list) {
@@ -135,6 +142,7 @@
 						setTimeout(function(){
 							if (!ready) {
 								$('body').css({'background-color': '#e6e6e6'})
+								$('#wrap').css('visibility','hidden')
 								return
 							}
 							$('#wrap').addClass('wrap-' + s)
