@@ -9,7 +9,8 @@
 	port = process.env.PORT || 3000
 	player = 0
 	timer = null
-	started = false
+	status = 'offline'
+	online = false
 // Set environment
 	server.listen(port)
 	app.use(express.static(__dirname + '/views/'))
@@ -30,14 +31,24 @@
 		socket.emit('id', socket.id)
 
 		socket.on('enter', function(package) {
-			if (!started) {
-				if (++player == 1) {
-					stopCountdown()
+			if (player < 8) {
+				switch (status) {
+					case 'online':
+						if (++player == 1) {
+							stopCountdown()
+						}
+						admin.emit('joining', {name: package['key'], key: socket.id})
+						socket.emit('status', {response: 'online'})
+						break
+					case 'offline':
+						socket.emit('status', {response: 'offline'})
+						break
+					case 'running':
+						socket.emit('status', {response: 'running'})
+						break
 				}
-				admin.emit('joining', {name: package['key'], key: socket.id})
-				socket.emit('gameStarted', {response: 'no'})
 			} else {
-				socket.emit('gameStarted', {response: 'yes'})
+				socket.emit('status', {response: 'full'})
 			}
 		})
 		socket.on('ready', function(package) {
@@ -50,7 +61,6 @@
  			admin.emit('submit', package)
 		})
 		socket.on('disconnect', function(package) {
-			player--
 			admin.emit('leaving', {key: socket.id})
 			if (player == 0) {
 				startCountdown()
@@ -59,17 +69,25 @@
 	})
 
 	var admin = io.of('/tunnel').on('connection', function(socket) {
+		status = 'online'
+
 		socket.on('acknowledge', function(package) {
 			user.emit('callback', package)
 		})
-		socket.on('gameStarted', function() {
-			started = !started
-			if (!started) {
+		socket.on('gameStarted', function(package) {
+			if (package == 'end') {
+				started = 'online'
 				user.emit('id')
+			} else {
+				started = 'running'
 			}
 		})
+		socket.on('exit', function() {
+			player--
+		})
 		socket.on('disconnect', function() {
-			started = false
+			status = 'offline'
+			user.emit('id')
 		})
 	})
 // Others

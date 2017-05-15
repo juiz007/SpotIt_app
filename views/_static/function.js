@@ -1,3 +1,10 @@
+/* ###################### Universal ######################## */
+function setBackground(prop) {
+	for (var p in prop) {
+		$('body').css(prop)
+	}
+}
+/* ######################## GM ######################## */
 function createCountdown() {
 	$('#container').append(`<div id="wrap">
 					<div class="c"></div>
@@ -6,7 +13,7 @@ function createCountdown() {
 					<div class="n"></div>
 					<div class="t"></div>
 			    </div>
-			<svg style='visibility: hidden;'>
+			<svg style='display: none;'>
 				<defs>
 					<filter id="filter">
 						<feGaussianBlur in="SourceGraphic" stdDeviation="18" result="blur" />
@@ -15,7 +22,7 @@ function createCountdown() {
 					</filter>
 				</defs>
 			</svg>`)
-	$('#wrap').css('visibility','hidden')
+	$('#wrap').css('display','none')
 }
 
 function checkReady(list) {
@@ -42,8 +49,7 @@ function showLeaderboard(score) {
 	for (var s in score) {
 		sortable.push([s, score[s]])
 	}
-
-	sortable.sort(function(a, b){return b-a})
-
+	sortable.sort(function(a, b){ return b[1] - a[1]})
 	return sortable
 }
+/* ########################## Player ########################### */

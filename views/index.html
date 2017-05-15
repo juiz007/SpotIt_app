@@ -6,6 +6,7 @@
 		<link rel='stylesheet' href='static/style_index.css' />
 		<script type='text/javascript' src='/static/lib/jquery-3.2.0.min.js'></script>
 		<script type='text/javascript' src='/socket.io/socket.io.js'></script>
+		<script type= 'text/javascript' src='/static/function.js'></script>
 		<script type='text/javascript' src='/static/card.js'></script>
 		<script type='text/javascript' src='/static/pile.js'></script>
 		<script>
@@ -15,6 +16,16 @@
 				var name
 				var count = 0
 				var score = 0
+				const page = [
+					{	'background-color': '#ffb84d',
+						'margin': '0'},
+					{	'background-color': '#ffb84d',
+						'margin': '0'},
+					{	'background-color': '#ffb84d',
+						'margin': '0'},
+					{	'background-color': '#ffb84d',
+						'margin': '25% auto'}
+				]
 				var socket = io.connect('/')
 
 				socket.on('id', function(key) {
@@ -24,11 +35,19 @@
 					ChangePage(1, null)
 				})
 
-				socket.on('gameStarted', function(package) {
-					if (package['response'] == 'yes') {
-						alert('Game was already started, please wait until the game end.')
-					} else {
-						ChangePage(2, null)
+				socket.on('status', function(package) {
+					switch (package['response']) {
+						case 'online':
+							ChangePage(2, null)
+							break
+						case 'offline':
+							alert('GM was offline, please wait until GM is wake up.')
+							break
+						case 'running':
+							alert('Game was already started, please wait until the game end.')
+							break
+						case 'full':
+							alert('Game was full of player, please wait until the seat is available')
 					}
 				})
 				// ################ Playing Phase ################ //							
@@ -71,11 +90,11 @@
 				})
 				// ######################################### //
 				function ChangePage(part, element) {
-					$('div').empty()
+					$('#container').empty()
 					switch(part) {
 						case 1:
 							$('body').empty()
-							$('body').append(`<div class='what'>
+							$('body').append(`<div id='container' class='center'>
 											<p class='name-label'>Please enter your name: </p>
 											<input id='enter' class='enter-name' type='text' />
 										   </div>`)
@@ -89,13 +108,14 @@
 									}
 								}
 							})
-							setBackground(part)
+							setBackground(page[0])
 							break
 						case 2:
-							setBackground(part)
-							$('div').append(`<div class="wrapper">
-											<a href="#" id="state" class="btn">Click to Ready</a>
-										  </div>`)
+							setBackground(page[1])
+							$('#container').attr('class', 'what')
+							$('#container').append(`<div class='wrapper'>
+													<a href='#' id='state' class='btn'>Click to Ready</a>
+											    </div>`)
 							$('#state').click(function() {
 								if($(this).text() == 'Click to Ready') {
 									$(this).text('Click to Not Ready')
@@ -107,63 +127,20 @@
 							})
 							break
 						case 3:
-							setBackground(part)
+							setBackground(page[2])
+							$('#container').attr('class', 'container')
 							$('body').prepend(`<p class='score-label'>Your Score: </p>
-										    <p id ='score' class='score-label'>` + score + `<p>`)
+										    <p id='score' class='score-label'>` + score + `<p>`)
 							$('body').prepend(`<p id='ban'>You got TEMPORALLY banned, from picking the wrong one</p>`)
 							$('#ban').hide()
 							showPic(element)
 							break
 						case 4:
-							setBackground(part)
+							setBackground(page[3])
 							$('body').empty()
-							$('body').append(`<p class ='rank'>Your Rank:</p>`)
+							$('body').append(`<p class='rank'>Your Rank:</p>`)
 							$('body').append(`<p class='rank'>` + element + `</p>`)
 							break
-					}
-				}
-
-				function setBackground(page) {
-					switch (page) {
-						case 1:
-							$('body').css({
-								'background-color':'#ffb84d',
-								'height': '100%',
-								'width': '100%',
-								'padding': '0',
-								'margin': '0'
-							})
-							$('div').attr('class', 'center')
-							break
-						case 2:
-							$('body').css({
-								'background-color':'#ffb84d',
-								'height': '100%',
-								'width': '100%',
-								'padding': '0',
-								'margin': '0'
-							})
-							$('div').attr('class', 'what')
-							break
-						case 3:
-							$('body').css({
-								'background-color':'#ffb84d',
-								'height': '100%',
-								'width': '100%',
-								'padding': '0',
-								'margin': '0'
-							})
-							$('div').attr('class', 'container')
-							break
-						case 4:
-							$('body').css({
-								'background-color': '#ffb84d',
-								'height': '100%',
-								'width': '100%',
-								'padding': '0',
-								'margin': '25% auto'
-							})
-							break				
 					}
 				}
 			})
